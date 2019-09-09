@@ -1,0 +1,50 @@
+version: '2.2'
+
+services:
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.3.1
+    container_name: elasticsearch
+    environment:
+      - node.name=elasticsearch
+      - discovery.seed_hosts=elasticsearch
+      - cluster.initial_master_nodes=elasticsearch
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata1:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.3.1
+    container_name: kibana
+    environment:
+            ELASTICSEARCH_HOST: "http://elasticsearch:9200"
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.3.1
+    container_name: logstash
+    ports:
+      - "5000:5000"
+      - "9600:9600"
+    environment:
+      - "LS_JAVA_OPTS=-Xms512m -Xmx512m"
+      - http.host="0.0.0.0"
+      - xpack.monitoring.elasticsearch.hosts=[ "http://elasticsearch:9200" ]
+    depends_on:
+      - elasticsearch
+
+
+volumes:
+  esdata1:
+    driver: local
