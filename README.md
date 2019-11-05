@@ -1,4 +1,4 @@
-# navy-unified-logging
+# unified-logging
 
 
 # Prerequisites for running efk and elk stack on docker containers
