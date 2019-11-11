@@ -1,12 +1,21 @@
 version: '2.2'
 
 services:
-
-  fluentbit:
-    container_name: fluentbit
-    image: fluent/fluent-bit:latest
+  fluentbit-out:
+    container_name: fluentbit-out
+    image: kyoungho/fluent-bit:latest
     volumes:
-      - ./fluentbit/td-agent-bit.conf:/fluent-bit/etc/fluent-bit.conf
+      - ./fluentbit/dds-out.conf:/app/fluent-bit.conf:ro
+      - ./fluentbit/rti_license.dat:/app/rti_license.dat
+    networks:
+      - esnet
+
+  fluentbit-in:
+    container_name: fluentbit-in
+    image: kyoungho/fluent-bit:latest
+    volumes:
+      - ./fluentbit/dds-in.conf:/app/fluent-bit.conf:ro
+      - ./fluentbit/rti_license.dat:/app/rti_license.dat
     networks:
       - esnet
 
