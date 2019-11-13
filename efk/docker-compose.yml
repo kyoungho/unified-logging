@@ -7,8 +7,9 @@ services:
     volumes:
       - ./fluentbit/dds-out.conf:/app/fluent-bit.conf:ro
       - ./fluentbit/rti_license.dat:/app/rti_license.dat
-    networks:
-      - esnet
+    privileged: true
+    pid: host
+    network_mode: host
 
   fluentbit-in:
     container_name: fluentbit-in
