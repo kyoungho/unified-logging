@@ -36,5 +36,5 @@ packetbeat.protocols.cassandra:
 processors:
 - add_cloud_metadata: ~
 
-output.logstash:
+output.elasticsearch:
   hosts: ["elasticsearch:9200"]
