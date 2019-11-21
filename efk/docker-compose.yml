@@ -1,6 +1,13 @@
 version: '2.2'
 
 services:
+  dl-app:
+    container_name: dl-app
+    image: kyoungho/hello-distributed-logger:latest
+    volumes:
+      - ./fluentbit/rti_license.dat:/app/rti_license.dat
+    network_mode: host
+
   fluentbit-out:
     container_name: fluentbit-out
     image: kyoungho/fluent-bit:latest
