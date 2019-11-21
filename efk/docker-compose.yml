@@ -6,6 +6,7 @@ services:
     image: kyoungho/fluent-bit:latest
     volumes:
       - ./fluentbit/dds-out.conf:/app/fluent-bit.conf:ro
+      - ./fluentbit/parsers.conf:/app/parsers.conf
       - ./fluentbit/rti_license.dat:/app/rti_license.dat
       - ./fluentbit/fluent_out_qos_profile.xml:/app/USER_QOS_PROFILES.xml
     privileged: true
