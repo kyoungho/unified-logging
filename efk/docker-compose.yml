@@ -31,15 +31,16 @@ services:
 
 
   packetbeat:
-    container_name: packetbeat
-    build:
-      context: .
-      dockerfile: packetbeat.Dockerfile
+    image: docker.elastic.co/beats/packetbeat:7.3.1
+    # container_name: packetbeat
+    # build:
+    #   context: .
+    #   dockerfile: packetbeat.Dockerfile
     cap_add:
       - NET_ADMIN #to rectify permission denied issue! packetbeat       | /usr/local/bin/docker-entrypoint: line 8: /usr/share/packetbeat/packetbeat: Operation not permitted
     # image: docker.elastic.co/beats/packetbeat:7.3.1
-    # volumes:
-     # - ./packetbeat/packetbeat.yml:/usr/share/packetbeat/packetbeat.yml
+    volumes:
+     - ./packetbeat/packetbeat.yml:/usr/share/packetbeat/packetbeat.yml
     networks:
       - esnet
 
