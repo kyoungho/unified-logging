@@ -31,13 +31,16 @@ services:
 
   kibana:
     image: docker.elastic.co/kibana/kibana:7.3.1
-    environment:
-      ELASTICSEARCH_HOSTS: http://localhost:9200
-    network_mode: host
+    ports:
+      - 5601:5601
+    networks:
+      - esnet
 
   elasticsearch:
     container_name: elasticsearch
     image: docker.elastic.co/elasticsearch/elasticsearch:7.3.1
+    ports:
+      - 9200:9200
     environment:
       - discovery.type=single-node
       - cluster.name=docker-
@@ -50,4 +53,28 @@ services:
       memlock:
         soft: -1
         hard: -1
+    networks:
+      - esnet
+
+  influxdb:
+    image: influxdb:latest
+    container_name: influxdb
+    env_file:
+      - 'env.influxdb'
+    volumes:
+      # Data persistency
+      # mkdir -p $HOME/docker/influxdb/data
+      - $HOME/docker/influxdb/data:/var/lib/influxdb
     network_mode: host
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    volumes:
+      # Data persistency
+      # mkdir -p $HOME/docker/grafana/data; sudo chown 472:472 $HOME/docker/grafana/data
+      - $HOME/docker/grafana/data:/var/lib/grafana
+    network_mode: host
+
+networks:
+  esnet:
