@@ -27,21 +27,17 @@ services:
       - ./fluentbit/dds-in.conf:/app/fluent-bit.conf:ro
       - ./fluentbit/rti_license.dat:/app/rti_license.dat
       - ./fluentbit/fluent_in_qos_profile.xml:/app/USER_QOS_PROFILES.xml
-    networks:
-      - esnet
+    network_mode: host
 
   kibana:
     image: docker.elastic.co/kibana/kibana:7.3.1
-    ports:
-      - 5601:5601
-    networks:
-      - esnet
+    environment:
+      ELASTICSEARCH_HOSTS: http://localhost:9200
+    network_mode: host
 
   elasticsearch:
     container_name: elasticsearch
     image: docker.elastic.co/elasticsearch/elasticsearch:7.3.1
-    ports:
-      - 9200:9200
     environment:
       - discovery.type=single-node
       - cluster.name=docker-
@@ -54,8 +50,4 @@ services:
       memlock:
         soft: -1
         hard: -1
-    networks:
-      - esnet
-      
-networks:
-  esnet:
+    network_mode: host
