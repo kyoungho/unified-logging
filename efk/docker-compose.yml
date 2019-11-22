@@ -27,7 +27,8 @@ services:
       - ./fluentbit/dds-in.conf:/app/fluent-bit.conf:ro
       - ./fluentbit/rti_license.dat:/app/rti_license.dat
       - ./fluentbit/fluent_in_qos_profile.xml:/app/USER_QOS_PROFILES.xml
-    network_mode: host
+    networks:
+      - esnet
 
   kibana:
     image: docker.elastic.co/kibana/kibana:7.3.1
@@ -73,7 +74,8 @@ services:
       # Data persistency
       # mkdir -p $HOME/docker/influxdb/data
       - $HOME/docker/influxdb/data:/var/lib/influxdb
-    network_mode: host
+    networks:
+      - esnet
 
   grafana:
     image: grafana/grafana:latest
@@ -82,7 +84,8 @@ services:
       # Data persistency
       # mkdir -p $HOME/docker/grafana/data; sudo chown 472:472 $HOME/docker/grafana/data
       - $HOME/docker/grafana/data:/var/lib/grafana
-    network_mode: host
+    networks:
+      - esnet
 
 networks:
   esnet:
