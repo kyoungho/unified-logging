@@ -35,6 +35,14 @@ services:
       ELASTICSEARCH_HOSTS: http://localhost:9200
     network_mode: host
 
+  packetbeat:
+    image: docker.elastic.co/beats/packetbeat:7.3.1
+    cap_add:
+      - NET_ADMIN #to rectify permission denied issue! packetbeat       | /usr/local/bin/docker-entrypoint: line 8: /usr/share/packetbeat/packetbeat: Operation not permitted
+    volumes:
+     - ./packetbeat/packetbeat.yml:/usr/share/packetbeat/packetbeat.yml
+    network_mode: host
+
   elasticsearch:
     container_name: elasticsearch
     image: docker.elastic.co/elasticsearch/elasticsearch:7.3.1
