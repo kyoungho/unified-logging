@@ -41,4 +41,5 @@ output.elasticsearch:
 setup.kibana:
   host: "localhost:5601"
 
-# setup.dashboards.index: "packetbeat-*"
+setup.dashboards.enabled: true
+setup.dashboards.index: "packetbeat-*"
